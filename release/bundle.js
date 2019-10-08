@@ -70,19 +70,58 @@
 "use strict";
 
 
-var has = Object.prototype.hasOwnProperty;
-var str = 'http://192.168.0.101:8880/example/test.html?type=12345&name=zhangxia';
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-function parseToStr(str, name) {
-    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-    var urlObj = str;
-    var r = urlObj.href.indexOf('#') > -1 ? urlObj.hash.split("?")[1].match(reg) : urlObj.search.substr(1).match(reg);
-    if (r != null) return unescape(r[2]);return null;
+var strUrl = window.location.search;
+
+function decodeValue(val) {
+    return decodeURIComponent(val);
 }
 
-console.log('type=', parseToStr(str, 'type'));
-console.log('name=', parseToStr(str, 'name'));
-exports.getStrName = parseToStr;
+function encodeValue(val) {
+    return encodeURIComponent(val);
+}
+
+function parseToStr(param) {
+    var strArr = [];
+    if (param) {
+        if ((typeof param === 'undefined' ? 'undefined' : _typeof(param)) === 'object') {
+            Object.keys(param).forEach(function (key) {
+                var val = param[key];
+                if (typeof val === 'undefined') {
+                    val = '';
+                }
+                strArr.push([key, encodeValue(val)].join('='));
+            });
+        }
+    }
+
+    return strArr.join('&');
+}
+
+console.log(parseToStr(strUrl));
+console.log(parseToStr({ 'a': 1, 'b': 2 }));
+
+function parseToJson(url) {
+    var theRequest = new Object();
+    if (url) {
+        var index = url.indexOf("?");
+        if (index != -1) {
+            var str = url.substr(index + 1);
+            var strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+                theRequest[strs[i].split("=")[0]] = decodeValue(strs[i].split("=")[1]);
+            }
+        }
+    }
+
+    return theRequest;
+}
+
+console.log(parseToJson(strUrl));
+
+exports.getSearchParamsToObj = parseToJson;
+exports.getSearchParamsToStr = parseToStr;
 
 /***/ })
 /******/ ]);
