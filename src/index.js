@@ -43,7 +43,7 @@ function parseToJson(url){
 
 // 测试代码
 let strUrl = window.location.search;
-console.log(parseToStr({'a': 1, 'b': 2}));
+console.log(parseToStr({'a': 1, 'b': 2, 'c': ' 张三 '}));
 console.log(parseToJson(strUrl));
 
 exports.getSearchParamsToObj = parseToJson;
