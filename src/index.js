@@ -1,7 +1,5 @@
 'use strict';
 
-let strUrl = window.location.search;
-
 function decodeValue(val){
     return decodeURIComponent(val);
 }
@@ -27,9 +25,6 @@ function parseToStr(param){
     return strArr.join('&');
 }
 
-console.log(parseToStr(strUrl))
-console.log(parseToStr({'a': 1, 'b': 2}))
-
 function parseToJson(url){
     let theRequest = new Object();
     if(url){
@@ -46,6 +41,9 @@ function parseToJson(url){
     return theRequest;
 }
 
+// 测试代码
+let strUrl = window.location.search;
+console.log(parseToStr({'a': 1, 'b': 2}));
 console.log(parseToJson(strUrl));
 
 exports.getSearchParamsToObj = parseToJson;

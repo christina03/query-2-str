@@ -72,8 +72,6 @@
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var strUrl = window.location.search;
-
 function decodeValue(val) {
     return decodeURIComponent(val);
 }
@@ -99,9 +97,6 @@ function parseToStr(param) {
     return strArr.join('&');
 }
 
-console.log(parseToStr(strUrl));
-console.log(parseToStr({ 'a': 1, 'b': 2 }));
-
 function parseToJson(url) {
     var theRequest = new Object();
     if (url) {
@@ -118,6 +113,9 @@ function parseToJson(url) {
     return theRequest;
 }
 
+// 测试代码
+var strUrl = window.location.search;
+console.log(parseToStr({ 'a': 1, 'b': 2 }));
 console.log(parseToJson(strUrl));
 
 exports.getSearchParamsToObj = parseToJson;
