@@ -70,8 +70,6 @@
 "use strict";
 
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 function decodeValue(val) {
     return decodeURIComponent(val);
 }
@@ -82,12 +80,16 @@ function encodeValue(val) {
 
 function parseToStr(param) {
     var strArr = [];
+    console.log('instanceof:', param instanceof Object);
     if (param) {
-        if ((typeof param === 'undefined' ? 'undefined' : _typeof(param)) === 'object') {
+        if (param instanceof Object && !Array.isArray(param)) {
             Object.keys(param).forEach(function (key) {
                 var val = param[key];
                 if (typeof val === 'undefined') {
                     val = '';
+                }
+                if (typeof val === 'string') {
+                    val = val.replace(/^\s*|\s*$/g, ""); //去掉字符串两边的空白符
                 }
                 strArr.push([key, encodeValue(val)].join('='));
             });
@@ -105,7 +107,7 @@ function parseToJson(url) {
             var str = url.substr(index + 1);
             var strs = str.split("&");
             for (var i = 0; i < strs.length; i++) {
-                theRequest[strs[i].split("=")[0]] = decodeValue(strs[i].split("=")[1]);
+                theRequest[strs[i].split("=")[0]] = decodeValue(strs[i].split("=")[1]).replace(/^\s*|\s*$/g, "");
             }
         }
     }
@@ -115,6 +117,8 @@ function parseToJson(url) {
 
 // 测试代码
 var strUrl = window.location.search;
+console.log(parseToStr([1, 2, 34]));
+console.log(parseToStr(null));
 console.log(parseToStr({ 'a': 1, 'b': 2, 'c': ' 张三 ' }));
 console.log(parseToJson(strUrl));
 
