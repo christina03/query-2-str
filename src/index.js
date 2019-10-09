@@ -17,9 +17,9 @@ function parseToStr(param){
                 if(typeof val === 'undefined'){
                     val = '';
                 }
-                if( typeof val === 'string' ){
-                    val = val.replace(/^\s*|\s*$/g,""); //去掉字符串两边的空白符
-                }
+                // if( typeof val === 'string' ){
+                //     val = val.replace(/^\s*|\s*$/g,""); //去掉字符串两边的空白符
+                // }
                 strArr.push([key, encodeValue(val)].join('='));
             })
         } 
@@ -35,8 +35,8 @@ function parseToJson(url){
         if (index != -1) {
             let str = url.substr(index+1);
             let strs = str.split("&");
-            for(let i = 0; i < strs.length; i ++) {
-                theRequest[strs[i].split("=")[0]] = decodeValue(strs[i].split("=")[1]).replace(/^\s*|\s*$/g,"");
+            for(let i = 0; i < strs.length; i++) {
+                theRequest[strs[i].split("=")[0]] = decodeValue(strs[i].split("=")[1]);
             }
         }
     }
@@ -48,7 +48,7 @@ function parseToJson(url){
 let strUrl = window.location.search;
 console.log(parseToStr([1,2,34]));
 console.log(parseToStr(null));
-console.log(parseToStr({'a': 1, 'b': 2, 'c': ' 张三 '}));
+console.log(parseToStr({'a': 1, 'b': ' ', 'c': ' 张三 '}));
 console.log(parseToJson(strUrl));
 
 exports.getSearchParamsToObj = parseToJson;
