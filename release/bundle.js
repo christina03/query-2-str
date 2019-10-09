@@ -80,7 +80,6 @@ function encodeValue(val) {
 
 function parseToStr(param) {
     var strArr = [];
-    console.log('instanceof:', param instanceof Object);
     if (param) {
         if (param instanceof Object && !Array.isArray(param)) {
             Object.keys(param).forEach(function (key) {
